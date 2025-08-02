@@ -75,8 +75,17 @@ resource "azurerm_public_ip" "pip" {
   sku                 = "Standard"
 }
 
+resource "azurerm_public_ip" "win_pip" {
+  name                = "pip-win-${var.student_id}"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  allocation_method   = "Static"
+  sku                 = "Standard"
+}
+
+
 resource "azurerm_network_interface" "nic" {
-  name                = "nic-${var.student_id}"
+  name                = "nic-${var.student_id}-${formatdate("HHmmss", timestamp())}"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
@@ -87,6 +96,20 @@ resource "azurerm_network_interface" "nic" {
     public_ip_address_id          = azurerm_public_ip.pip.id
   }
 }
+
+resource "azurerm_network_interface" "win_nic" {
+  name                = "nic-win-${var.student_id}-${formatdate("HHmmss", timestamp())}"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = azurerm_subnet.web.id
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.win_pip.id
+  }
+}
+
 
 resource "azurerm_linux_virtual_machine" "linux_vm" {
   name                = "linuxvm-${var.student_id}"
@@ -124,7 +147,7 @@ resource "azurerm_windows_virtual_machine" "windows_vm" {
   admin_username      = "azureuser"
   admin_password      = var.vm_admin_password
   network_interface_ids = [
-    azurerm_network_interface.nic.id
+    azurerm_network_interface.win_nic.id
   ]
 
   os_disk {
