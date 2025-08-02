@@ -1,0 +1,6 @@
+---
+# handlers file for roles/web_windows
+- name: restart iis
+  win_service:
+    name: W3SVC
+    state: restarted

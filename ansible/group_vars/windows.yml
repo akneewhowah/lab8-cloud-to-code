@@ -1,0 +1,6 @@
+
+ansible_user: azureuser
+ansible_password: "{{ vault_windows_password }}"
+ansible_connection: winrm
+ansible_winrm_server_cert_validation: ignore
+ansible_port: 5986

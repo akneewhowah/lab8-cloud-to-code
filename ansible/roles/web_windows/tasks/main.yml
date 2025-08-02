@@ -1,0 +1,19 @@
+---
+# tasks file for roles/web_windows
+- name: Install IIS Web Server
+  win_feature:
+    name: Web-Server
+    state: present
+    include_sub_features: true
+
+- name: Ensure IIS is running
+  win_service:
+    name: W3SVC
+    state: started
+    start_mode: auto
+  notify: restart iis
+
+- name: Deploy index.html to IIS root
+  win_template:
+    src: index.html.j2
+    dest: C:\inetpub\wwwroot\index.html

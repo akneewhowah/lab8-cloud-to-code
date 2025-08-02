@@ -1,0 +1,11 @@
+plugin: azure.azcollection.azure_rm
+
+include_vm_resource_groups:
+   - nssa320-lab8-ah2978
+
+conditional_groups:
+    linux: "'linux' in tags.ansible_group"
+    windows: "'windows' in tags.ansible_group"
+    all_the_hosts: true
+auth_source: cli
+include_powerstate: false

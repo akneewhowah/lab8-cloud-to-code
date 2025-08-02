@@ -1,0 +1,3 @@
+---
+# defaults file for roles/web_windows
+web_title: "windows azure server"

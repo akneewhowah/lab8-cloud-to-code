@@ -1,0 +1,12 @@
+---
+- name: Configure Linux Web Servers (NGINX)
+  hosts: linux
+  become: true
+  roles:
+    - web_linux
+
+- name: Configure Windows Web Servers (IIS)
+  hosts: windows
+  gather_facts: false 
+  roles:
+    - web_windows
