@@ -1,0 +1,12 @@
+plugin: azure.azcollection.azure_rm
+auth_source: auto
+include_powerstate: false
+
+subscription_id: "1fd03a1c-e768-45c1-a609-cd4b12ccdf7c"
+
+include_vm_resource_groups:
+  - rg-ah2978
+
+conditional_groups:
+  linux: "'linux' in tags.ansible_group"
+  windows: "'windows' in tags.ansible_group"
