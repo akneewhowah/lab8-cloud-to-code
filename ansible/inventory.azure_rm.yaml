@@ -1,13 +1,11 @@
 plugin: azure.azcollection.azure_rm
-
+auth_source: auto 
 include_vm_resource_groups:
    - rg-2978
 
 conditional_groups:
     linux: "'linux' in tags.ansible_group"
     windows: "'windows' in tags.ansible_group"
-    all_the_hosts: true
-auth_source: cli
-include_powerstate: false
 
 
+plain_host_names: yes
